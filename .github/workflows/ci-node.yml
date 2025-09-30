@@ -1,0 +1,32 @@
+name: heathcheck-api pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs: 
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Étape 1: Configuration de Node.js
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with: 
+          node-version: 20
+      # Étape 2: Installation des dépendances (pour simuler des tests)
+      - name: Installer les dependencies
+        run : npm install 
+      # Étape 3: Construction de l'image Docker
+      - name: Build docker image
+        uses: docker/build-push-action@v5
+        with: 
+          context: .
+          push: false
+          tags: | 
+            healthcheck-api:latest
+
+      - name: Build successful 
+        run: echo "Build et Dockerisation réussis !"
+
+
